@@ -81,7 +81,6 @@ const COMMON_TESTS = new Map<string, Test | any>([
     'headers',
     new Map([
       ['X-Device-Id', { test: 'equal', expected: MESSAGE.deviceId }],
-      ['X-Email-Service', { test: 'equal', expected: 'fxa-auth-server' }],
       ['X-Flow-Begin-Time', { test: 'equal', expected: MESSAGE.flowBeginTime }],
       ['X-Flow-Id', { test: 'equal', expected: MESSAGE.flowId }],
       ['X-Service-Id', { test: 'equal', expected: MESSAGE.service }],
@@ -972,12 +971,10 @@ const TESTS: [string, any][] = [
 
 describe('lib/senders/mjml-emails:', () => {
   type LocalizeFn = (message: Record<any, any>) => Promise<Record<any, string>>;
-  type SelectEmailServicesFn = (message: Record<any, any>) => Promise<any>;
 
   let mockLog: Record<any, any>,
     mailer: Record<any, any>,
     localize: LocalizeFn,
-    selectEmailServices: SelectEmailServicesFn,
     sendMail: Record<any, any>;
 
   before(async () => {
@@ -993,10 +990,8 @@ describe('lib/senders/mjml-emails:', () => {
     // after each case, give them carte blanche to do what they want then
     // restore the original methods in the top-level afterEach.
     localize = mailer.localize;
-    selectEmailServices = mailer.selectEmailServices;
     sendMail = {
       mailer: mailer.mailer.sendMail,
-      emailService: mailer.emailService.sendMail,
     };
   });
 
@@ -1011,14 +1006,9 @@ describe('lib/senders/mjml-emails:', () => {
     if (mailer.localize !== localize) {
       mailer.localize = localize;
     }
-    if (mailer.selectEmailServices !== selectEmailServices) {
-      mailer.selectEmailServices = selectEmailServices;
-    }
+
     if (mailer.mailer.sendMail !== sendMail.mailer) {
       mailer.mailer.sendMail = sendMail.mailer;
-    }
-    if (mailer.emailService.sendMail !== sendMail.emailService) {
-      mailer.emailService.sendMail = sendMail.emailService;
     }
   });
 

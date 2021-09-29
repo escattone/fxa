@@ -69,8 +69,6 @@ export type EventContext = {
   deviceId?: string;
   devices?: Device[];
   emailDomain?: string;
-  emailSender?: string;
-  emailService?: string;
   emailTypes?: { [key: string]: string };
   entrypoint_experiment?: string;
   entrypoint_variation?: string;

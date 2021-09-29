@@ -52,8 +52,6 @@ type ConnectDeviceEventProperties = {
 type EmailTypeEventProperties = {
   email_type: string;
   email_provider?: string;
-  email_sender?: string;
-  email_service?: string;
   email_template?: string;
   email_version?: string;
 };
@@ -136,8 +134,6 @@ function mapEmailType(
     const result: EmailTypeEventProperties = {
       email_type: emailType,
       email_provider: context.emailDomain,
-      email_sender: context.emailSender,
-      email_service: context.emailService,
     };
 
     const { templateVersion } = context;

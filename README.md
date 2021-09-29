@@ -15,7 +15,6 @@ The Firefox Accounts (fxa) monorepo
 [Firefox Custom Profile](#firefox-custom-profile)\
 [Node debugging](#node-debugging)\
 [Android debugging](#android-debugging)\
-[FxA Email Service](#fxa-email-service)\
 [Firefox for iOS](#firefox-for-ios)\
 [Running with MailDev](#running-with-maildev)\
 [Documentation](#documentation)
@@ -190,25 +189,6 @@ nvm alias default 14
 
 Download from [java.com/en/download/](https://www.java.com/en/download/)
 
-#### Installing Rust
-
-> Rust Nightly is used for the fxa-email-service
-
-##### Ubuntu and OS X
-
-```
-curl https://sh.rustup.rs -sSf | sh
-```
-
-Once the installer begins, when prompted:
-
-1. Select "2) Customize installation"
-2. Leave "Default host triple" blank, hit "enter"
-3. Type "nightly" for "Default toolchain"
-4. Type "default" for "Profile"
-5. Type "y" for "Modify PATH variable?"
-6. Select "1) Proceed with installation"
-
 ---
 
 ### Secrets
@@ -236,9 +216,6 @@ From the root directory you may test all or some FxA packages:
 # Test only `fxa-shared`
 yarn test fxa-shared
 
-# Test `fxa-auth-db-mysql` and `fxa-auth-server`
-yarn test fxa-auth-db-mysql fxa-auth-server
-
 # Test all packages
 yarn test all
 ```
@@ -263,19 +240,19 @@ You can find the Storybook build associated with a given commit on Github via th
 
 The Google Cloud Platform project dashboard for the website can be found here, if you've been given access:
 
-* https://console.cloud.google.com/home/dashboard?project=storybook-static-sites
+- https://console.cloud.google.com/home/dashboard?project=storybook-static-sites
 
 For quick reference, here are [a few CircleCI environment variables][storybook-gcp-publisher-config] used by storybook-gcp-publisher that are relevant to FxA operations in CircleCI. Occasionally they may need maintenance or replacement - e.g. in case of a security incident involving another tool that exposes variables.
 
-* `STORYBOOKS_GITHUB_TOKEN` - personal access token on GitHub for use in posting status check updates
+- `STORYBOOKS_GITHUB_TOKEN` - personal access token on GitHub for use in posting status check updates
 
-* `STORYBOOKS_GCP_BUCKET` - name of the GCP bucket to which Storybook builds will be uploaded
+- `STORYBOOKS_GCP_BUCKET` - name of the GCP bucket to which Storybook builds will be uploaded
 
-* `STORYBOOKS_GCP_PROJECT_ID` - the ID of the GCP project to which the bucket belongs
+- `STORYBOOKS_GCP_PROJECT_ID` - the ID of the GCP project to which the bucket belongs
 
-* `STORYBOOKS_GCP_CLIENT_EMAIL` - client email address from GCP credentials with access to the bucket
+- `STORYBOOKS_GCP_CLIENT_EMAIL` - client email address from GCP credentials with access to the bucket
 
-* `STORYBOOKS_GCP_PRIVATE_KEY_BASE64` - the private key from GCP credentials, encoded with base64 to accomodate linebreaks
+- `STORYBOOKS_GCP_PRIVATE_KEY_BASE64` - the private key from GCP credentials, encoded with base64 to accomodate linebreaks
 
 [storybooks-fxa-site]: https://storage.googleapis.com/mozilla-storybooks-fxa/index.html
 [storybook-gcp-publisher-config]: https://github.com/mozilla-fxa/storybook-gcp-publisher#basic-1
@@ -380,19 +357,6 @@ Then run `yarn start` and get to work!
 
 ---
 
-### FxA Email Service
-
-> Skip this if you are not working on the [fxa-email-service](packages/fxa-email-service).
-
-The pm2 scripts run the `latest` docker version of the email service by default. If you want to
-start making changes to the email service then do the following:
-
-1. Stop the email-service using `yarn pm2 stop <email_service_id>`
-1. Build the service: `cd packages/fxa-email-service; cargo build --bin fxa_email_send`
-1. Run the service: `cd packages/fxa-email-service; ./scripts/run_send.sh`
-
----
-
 ### Firefox for iOS
 
 > Skip this if you are not working on Firefox for iOS and FxA.
@@ -448,13 +412,10 @@ In addition to the ecosystem docs, each package has it's own README.md and some 
 - fxa-admin-panel [README](./packages/fxa-admin-panel/README.md)
 - fxa-admin-server [README](./packages/fxa-admin-server/README.md)
 - fxa-auth-client [README](./packages/fxa-auth-client/README.md)
-- fxa-auth-db-mysql [README](./packages/fxa-auth-db-mysql/README.md) / [docs/](./packages/fxa-auth-db-mysql/docs)
 - fxa-auth-server [README](./packages/fxa-auth-server/README.md) / [docs/](./packages/fxa-auth-server/docs)
 - fxa-content-server [README](./packages/fxa-content-server/README.md) / [docs/](./packages/fxa-content-server/docs)
 - fxa-customs-server [README](./packages/fxa-content-server/README.md) / [docs/](./packages/fxa-customs-server/docs)
 - fxa-dev-launcher [README](./packages/fxa-dev-launcher/README.md)
-- fxa-email-event-proxy [README](./packages/fxa-email-event-proxy/README.md)
-- fxa-email-service [README](./packages/fxa-email-service/README.md) / [docs/](./packages/fxa-email-service/docs)
 - fxa-event-broker [README](./packages/fxa-event-broker/README.md) / [docs/](./packages/fxa-event-broker/docs)
 - fxa-geodb [README](./packages/fxa-geodb/README.md)
 - fxa-graphql-api [README](./packages/fxa-graphql-api/README.md)

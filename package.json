@@ -54,7 +54,6 @@
         "fxa-settings"
       ],
       "fxa-auth-server": [
-        "fxa-auth-db-mysql",
         "fxa-shared"
       ],
       "fxa-auth-client": [

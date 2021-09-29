@@ -6,7 +6,11 @@ import { assert } from 'chai';
 import 'mocha';
 
 import { createAmplitudeEventPropertiesMapper } from '../../../../lib/amplitude/transforms/event-properties';
-import { Event, GROUPS, EventContext } from '../../../../lib/amplitude/transforms/types';
+import {
+  Event,
+  GROUPS,
+  EventContext,
+} from '../../../../lib/amplitude/transforms/types';
 import { createServiceNameAndClientIdMapper } from '../../../../lib/amplitude/transforms/common';
 
 const services = { foo: 'bar', fizz: 'buzz', level: 'over9000' };
@@ -15,7 +19,9 @@ const mockContext: EventContext = {
   eventSource: 'content',
   version: '1.165.1',
 };
-const mapper = createAmplitudeEventPropertiesMapper(createServiceNameAndClientIdMapper(services));
+const mapper = createAmplitudeEventPropertiesMapper(
+  createServiceNameAndClientIdMapper(services)
+);
 
 describe('Amplitude event properties mapper', () => {
   describe('with subscription plan id and product id in the event context', () => {
@@ -43,7 +49,10 @@ describe('Amplitude event properties mapper', () => {
 
   describe('Connect device flow properties mapping', () => {
     it('should return an empty object when event category is not in connect device flow', () => {
-      const eventProperties = mapper({ ...mockEvent, category: 'disco' }, mockContext);
+      const eventProperties = mapper(
+        { ...mockEvent, category: 'disco' },
+        mockContext
+      );
       assert.isUndefined(eventProperties.connect_device_flow);
       assert.isUndefined(eventProperties.connect_device_os);
     });
@@ -83,18 +92,17 @@ describe('Amplitude event properties mapper', () => {
       );
       assert.isUndefined(eventProperties.email_type);
       assert.isUndefined(eventProperties.email_provider);
-      assert.isUndefined(eventProperties.email_sender);
-      assert.isUndefined(eventProperties.email_service);
       assert.isUndefined(eventProperties.email_template);
       assert.isUndefined(eventProperties.email_version);
     });
 
     it('should return an empty object when "emailTypes" is not in the context', () => {
-      const eventProperties = mapper({ ...mockEvent, group: GROUPS.email }, mockContext);
+      const eventProperties = mapper(
+        { ...mockEvent, group: GROUPS.email },
+        mockContext
+      );
       assert.isUndefined(eventProperties.email_type);
       assert.isUndefined(eventProperties.email_provider);
-      assert.isUndefined(eventProperties.email_sender);
-      assert.isUndefined(eventProperties.email_service);
       assert.isUndefined(eventProperties.email_template);
       assert.isUndefined(eventProperties.email_version);
     });
@@ -109,8 +117,6 @@ describe('Amplitude event properties mapper', () => {
       );
       assert.isUndefined(eventProperties.email_type);
       assert.isUndefined(eventProperties.email_provider);
-      assert.isUndefined(eventProperties.email_sender);
-      assert.isUndefined(eventProperties.email_service);
       assert.isUndefined(eventProperties.email_template);
       assert.isUndefined(eventProperties.email_version);
     });
@@ -126,14 +132,10 @@ describe('Amplitude event properties mapper', () => {
           ...mockContext,
           emailTypes: { 'complete-reset-password': 'reset_password' },
           emailDomain: 'gg.fail',
-          emailSender: 'abc',
-          emailService: 'xyz',
         }
       );
       assert.equal(eventProperties.email_type, 'reset_password');
       assert.equal(eventProperties.email_provider, 'gg.fail');
-      assert.equal(eventProperties.email_sender, 'abc');
-      assert.equal(eventProperties.email_service, 'xyz');
       assert.isUndefined(eventProperties.email_template);
       assert.isUndefined(eventProperties.email_version);
     });
@@ -149,15 +151,11 @@ describe('Amplitude event properties mapper', () => {
           ...mockContext,
           emailTypes: { 'complete-reset-password': 'reset_password' },
           emailDomain: 'gg.fail',
-          emailSender: 'abc',
-          emailService: 'xyz',
           templateVersion: '9000',
         }
       );
       assert.equal(eventProperties.email_type, 'reset_password');
       assert.equal(eventProperties.email_provider, 'gg.fail');
-      assert.equal(eventProperties.email_sender, 'abc');
-      assert.equal(eventProperties.email_service, 'xyz');
       assert.equal(eventProperties.email_template, 'complete-reset-password');
       assert.equal(eventProperties.email_version, '9000');
     });

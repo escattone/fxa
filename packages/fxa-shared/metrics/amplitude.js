@@ -91,8 +91,6 @@ function mapEmailType(eventType, eventCategory, eventTarget, data) {
     const result = {
       email_type,
       email_provider: data.emailDomain,
-      email_sender: data.emailSender,
-      email_service: data.emailService,
     };
 
     const { templateVersion } = data;
