@@ -15,6 +15,7 @@ import {
   createAccountCustomer,
   deleteAccountCustomer,
   getAccountCustomerByUid,
+  getAccountCustomerByStripeCustomerId,
   updateAccountCustomer,
   PayPalBillingAgreements,
   createPayPalBA,
@@ -142,6 +143,28 @@ describe('auth', () => {
         } catch (err) {
           assert.isTrue(err.message.includes('Invalid hex data'));
         }
+      });
+    });
+
+    describe('getAccountCustomerByStripeCustomerId', () => {
+      const uid = '1bec4927384d147aade165642524e9c7';
+      const stripeCustomerId = 'cus_123456789';
+
+      before(async () => {
+        await createAccountCustomer(uid, stripeCustomerId);
+      });
+      it('finds an existing accountCustomer', async () => {
+        const result = (await getAccountCustomerByStripeCustomerId(
+          stripeCustomerId
+        )) as AccountCustomers;
+        assert.isDefined(result);
+        assert.equal(result.uid, uid);
+        assert.equal(result.stripeCustomerId, stripeCustomerId);
+      });
+
+      it('does not find a non-existent accountCustomer', async () => {
+        const result = await getAccountCustomerByStripeCustomerId('cus_123');
+        assert.isUndefined(result);
       });
     });
 

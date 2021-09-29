@@ -79,6 +79,15 @@ export async function getAccountCustomerByUid(uid: string) {
 }
 
 /**
+ * Locate an accountCustomer record by Stripe customer id
+ * @param customerId
+ * @returns AccountCustomer | undefined
+ */
+export async function getAccountCustomerByStripeCustomerId(customerId: string) {
+  return AccountCustomers.query().findOne({ stripeCustomerId: customerId });
+}
+
+/**
  * Attempts to update an accountCustomer record by fxa user id
  * Returns the number of affected rows
  *
