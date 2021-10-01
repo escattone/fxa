@@ -64,6 +64,8 @@ export class StripeWebhookHandler extends StripeHandler {
         request.headers['stripe-signature']
       );
 
+      await this.stripeHelper.processWebhookEventToFirestore(event);
+
       switch (event.type as Stripe.WebhookEndpointUpdateParams.EnabledEvent) {
         case 'credit_note.created':
           if (this.paypalHelper) {
